@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name">Task2</string>
+    <string name="app_name">Form</string>
     <string name="name">Name</string>
     <string name="address">Address</string>
-    <string name="gender">Gender M/F</string>
+    <string name="gender">Gender</string>
     <string name="roll">Roll No</string>
     <string name="submit">Submit</string>
     <string name="viewlist">View List</string>

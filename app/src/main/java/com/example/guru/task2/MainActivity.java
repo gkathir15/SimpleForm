@@ -1,6 +1,8 @@
 package com.example.guru.task2;
 
 import android.content.Intent;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,10 +11,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
+
 import java.util.ArrayList;
 
-import static java.security.AccessController.getContext;
+import static com.example.guru.task2.R.drawable.error_black;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -65,33 +69,35 @@ public class MainActivity extends AppCompatActivity {
         Log.d("onclick invoked", "TAG");
         RadioButton gen = findViewById(genderID);
         genderIs = String.valueOf(gen.getText());
+        if (validateData(name) && validateData(roll) && validateData(address)) {
+            UserDetails user = new UserDetails(userAddress, userName, genderIs, rollNo);
+            Log.d(user.getRollNo(), "TAG");
 
-        UserDetails user = new UserDetails(userAddress,userName,genderIs,rollNo);
-        Log.d(user.getRollNo(), "TAG");
 
-
-        if (!userList.contains(user)) {
-            userList.add(user);
-            Toast.makeText(getApplicationContext(), "User added", Toast.LENGTH_SHORT).show();
-            clearText();
-        } else {
-            Toast.makeText(getApplicationContext(), "RollNo already Exist", Toast.LENGTH_SHORT).show();
-        }
+            if (!userList.contains(user)) {
+                userList.add(user);
+                Toast.makeText(getApplicationContext(), "User added", Toast.LENGTH_SHORT).show();
+                clearText();
+            } else {
+                Toast.makeText(getApplicationContext(), "RollNo already Exist", Toast.LENGTH_SHORT).show();
+            }
+        } else
+            Toast.makeText(getApplicationContext(), "Enter all data", Toast.LENGTH_SHORT).show();
 
 
     }
 
     void showListActivity() {
-        if(!userList.isEmpty()){
-        Intent i = new Intent(getApplicationContext(), ActivityList.class);
-        i.putExtra("userArrayList", userList);
-        startActivity(i);}
-        else
+        if (!userList.isEmpty()) {
+            Intent i = new Intent(getApplicationContext(), ActivityList.class);
+            i.putExtra("userArrayList", userList);
+            startActivity(i);
+        } else
             Toast.makeText(getApplicationContext(), "no users added", Toast.LENGTH_SHORT).show();
 
-       // ArrayList<UserDetails> userDetails = userList ;
-       // userDetails.clear();
-       // Log.d("MainActivity","size of user list "+userList.size());
+        // ArrayList<UserDetails> userDetails = userList ;
+        // userDetails.clear();
+        // Log.d("MainActivity","size of user list "+userList.size());
     }
 
     void clearText() {
@@ -100,5 +106,17 @@ public class MainActivity extends AppCompatActivity {
         address.getText().clear();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    boolean validateData(TextView v) {
+        if (v.getText().toString().length() == 0) {
+            v.setError("enter data", getDrawable(error_black));
 
+            return false;
+        } else {
+            return true;
+        }
+
+
+    }
 }
+
