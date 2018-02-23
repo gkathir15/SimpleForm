@@ -1,6 +1,7 @@
 package com.example.guru.task2;
 
 import android.content.Intent;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -19,6 +20,9 @@ public class ActivityList extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setCustomView(R.layout.custom_list_actionbar);
+        actionBar.setDisplayShowCustomEnabled(true);
         Intent i =getIntent();
         studentArray = (ArrayList<UserDetails>) i.getSerializableExtra("userArrayList");
         ListView studentList = findViewById(R.id.studList);

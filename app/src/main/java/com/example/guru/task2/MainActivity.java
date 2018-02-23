@@ -3,6 +3,7 @@ package com.example.guru.task2;
 import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,11 +28,14 @@ public class MainActivity extends AppCompatActivity {
     int genderID;
     public ArrayList<UserDetails> userList = new ArrayList<>();
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setCustomView(R.layout.custom_form_actionbar);
+        actionBar.setDisplayShowCustomEnabled(true);
+
 
         name = findViewById(R.id.name);
         roll = findViewById(R.id.roll);
@@ -42,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         submit.setOnClickListener((new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onClick(View v) {
 
@@ -61,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     void onSubmit() {
         userName = String.valueOf(name.getText());
         rollNo = String.valueOf(roll.getText());
@@ -69,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d("onclick invoked", "TAG");
         RadioButton gen = findViewById(genderID);
         genderIs = String.valueOf(gen.getText());
-        if (validateData(name) && validateData(roll) && validateData(address)) {
+        if (validateFields()== true) {
             UserDetails user = new UserDetails(userAddress, userName, genderIs, rollNo);
             Log.d(user.getRollNo(), "TAG");
 
@@ -81,8 +87,7 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 Toast.makeText(getApplicationContext(), "RollNo already Exist", Toast.LENGTH_SHORT).show();
             }
-        } else
-            Toast.makeText(getApplicationContext(), "Enter all data", Toast.LENGTH_SHORT).show();
+        }
 
 
     }
@@ -104,19 +109,49 @@ public class MainActivity extends AppCompatActivity {
         name.getText().clear();
         roll.getText().clear();
         address.getText().clear();
+        name.requestFocus();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     boolean validateData(TextView v) {
         if (v.getText().toString().length() == 0) {
-            v.setError("enter data", getDrawable(error_black));
-
             return false;
         } else {
             return true;
         }
+    }
 
+    Boolean validateFields() {
+        if (validateData(name) == true) {
+            if (validateData(roll) == true) {
+                if (validateData(address) == true) {
+
+                    return true;
+                } else {
+                    address.requestFocus();
+                    setToast("Enter Address");
+
+                }
+            } else {
+                roll.requestFocus();
+                setToast("Enter Roll");
+
+            }
+
+
+        }
+        else{
+            name.requestFocus();
+            setToast("Enter Name");
+
+        }
+        return false;
+    }
+
+
+    void setToast(String t) {
+        Toast.makeText(getBaseContext(), t, Toast.LENGTH_SHORT).show();
 
     }
+
 }
 
