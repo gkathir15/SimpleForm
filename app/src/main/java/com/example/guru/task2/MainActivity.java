@@ -17,7 +17,6 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import static com.example.guru.task2.R.drawable.error_black;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -95,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
     void showListActivity() {
         if (!userList.isEmpty()) {
             Intent i = new Intent(getApplicationContext(), ActivityList.class);
-            i.putExtra("userArrayList", userList);
+            i.putExtra("userArrayListuserArrayList", userList);
             startActivity(i);
         } else
             Toast.makeText(getApplicationContext(), "no users added", Toast.LENGTH_SHORT).show();
