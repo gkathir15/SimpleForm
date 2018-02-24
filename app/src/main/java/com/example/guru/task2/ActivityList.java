@@ -9,10 +9,11 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class ActivityList extends AppCompatActivity {
 
-    ArrayList<UserDetails> studentArray = new ArrayList<UserDetails>() ;
+    ArrayList<UserDetails> studentArray = new ArrayList<>() ;
     private ListAdapter listAdapter;
 
 
@@ -26,8 +27,10 @@ public class ActivityList extends AppCompatActivity {
         Intent i =getIntent();
         studentArray = (ArrayList<UserDetails>) i.getSerializableExtra("userArrayList");
         ListView studentList = findViewById(R.id.studList);
+        Collections.sort(studentArray);
          listAdapter = new ListAdapter(getApplicationContext(),R.id.studList,studentArray);
         studentList.setAdapter(listAdapter);
+
 
         studentList.setOnItemClickListener(new AdapterView.OnItemClickListener(
 

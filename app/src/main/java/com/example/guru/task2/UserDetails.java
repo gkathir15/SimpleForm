@@ -1,12 +1,18 @@
 package com.example.guru.task2;
 
+import android.support.annotation.NonNull;
+
 import java.io.Serializable;
+import java.util.Comparator;
 
 /**
  * Created by User on 20-02-2018.
  */
 
-public class UserDetails implements Serializable{
+
+
+public class UserDetails implements Serializable, Comparable<UserDetails>{
+
 
     private String rollNo, name, address, genderIs;
 
@@ -68,8 +74,15 @@ public class UserDetails implements Serializable{
 
     }
 
+
+
     @Override
     public boolean equals(Object obj) {
         return this.rollNo.equalsIgnoreCase(((UserDetails) obj).getRollNo());
+    }
+
+    @Override
+    public int compareTo(@NonNull UserDetails o) {
+        return name.compareToIgnoreCase(o.getName());
     }
 }
