@@ -1,5 +1,6 @@
 package com.example.guru.task2;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
@@ -33,7 +34,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setCustomView(R.layout.custom_form_actionbar);
+        if (actionBar != null) {
+            actionBar.setCustomView(R.layout.custom_form_actionbar);
+        }
+        assert actionBar != null;
         actionBar.setDisplayShowCustomEnabled(true);
 
 
@@ -56,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
         }));
 
         showList.setOnClickListener((new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onClick(View v) {
                 showListActivity();
@@ -75,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d("onclick invoked", "TAG");
         RadioButton gen = findViewById(genderID);
         genderIs = String.valueOf(gen.getText());
-        if (validateFields()== true) {
+        if (validateFields()) {
             UserDetails user = new UserDetails(userAddress, userName, genderIs, rollNo);
             Log.d(user.getRollNo(), "TAG");
 
@@ -92,11 +97,12 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     void showListActivity() {
         if (!userList.isEmpty()) {
             Intent i = new Intent(getApplicationContext(), ActivityList.class);
             i.putExtra("userArrayList", userList);
-            startActivity(i);
+            startActivity(i, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
         } else
             Toast.makeText(getApplicationContext(), "no users added", Toast.LENGTH_SHORT).show();
 
@@ -121,9 +127,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     Boolean validateFields() {
-        if (validateData(name) == true) {
-            if (validateData(roll) == true) {
-                if (validateData(address) == true) {
+        if (validateData(name)) {
+            if (validateData(roll)) {
+                if (validateData(address)) {
 
                     return true;
                 } else {
