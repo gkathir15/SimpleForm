@@ -1,10 +1,12 @@
 package com.guru.task2.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -21,6 +23,7 @@ public class ActivityList extends AppCompatActivity {
     ArrayList<UserDetails> studentArray = new ArrayList<UserDetails>() ;
     private ListAdapter listAdapter;
     StudentDBHelper dbHelper = new StudentDBHelper(this);
+    GetDatabasetoList dbAsyncList = new GetDatabasetoList();
 
 
     @Override
@@ -30,9 +33,15 @@ public class ActivityList extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setCustomView(R.layout.custom_list_actionbar);
         actionBar.setDisplayShowCustomEnabled(true);
-        studentArray = dbHelper.retrieve();
+       // studentArray = dbHelper.retrieve();
+
         ListView studentList = findViewById(R.id.studList);
-         listAdapter = new ListAdapter(getApplicationContext(),R.id.studList,studentArray);
+
+       // studentArray = dbAsyncList.execute(studentArray);
+
+
+       studentArray = dbAsyncList.doInBackground(new ArrayList[]{studentArray});
+        listAdapter = new ListAdapter(getApplicationContext(),R.id.studList,studentArray);
         studentList.setAdapter(listAdapter);
 
         studentList.setOnItemClickListener(new AdapterView.OnItemClickListener(
@@ -55,19 +64,36 @@ public class ActivityList extends AppCompatActivity {
     }
 
 
- /*   private class GetDatabasetoList extends AsyncTask<ArrayList<UserDetails>,String,String>
+    private class GetDatabasetoList extends AsyncTask<ArrayList<UserDetails>,Integer,ArrayList<UserDetails>>
     {
-
-
+       // ProgressDialog progressDialog = new ProgressDialog(getBaseContext());
 
         @Override
-        protected String doInBackground(ArrayList<UserDetails>) {
-            super.doInBackground(ArrayList<UserDetails>)
-            arrayLists = dbHelper.retrieve();
+        protected void onPreExecute() {
+            super.onPreExecute();
 
-            return null;
+         //   progressDialog.show(getBaseContext(),"wait","updating List");
         }
-    }*/
+
+        @Override
+        protected ArrayList<UserDetails> doInBackground(ArrayList<UserDetails>[] arrayLists) {
+
+            Log.d("Async","DoInbG");
+            studentArray = dbHelper.retrieve();
+            return  studentArray;
+
+
+           // return null;
+        }
+
+       /* @Override
+        protected void onPostExecute(ArrayList<UserDetails> userDetails) {
+            super.onPostExecute(userDetails);
+           // progressDialog.dismiss();
+            listAdapter = new ListAdapter(getApplicationContext(),R.id.studList,studentArray);
+
+        }*/
+    }
 
 
 

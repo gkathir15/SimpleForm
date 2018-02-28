@@ -10,6 +10,8 @@
         android:layout_height="match_parent"
         android:id="@+id/studList"
         android:padding="5dp"
-        />
+        >
+
+    </ListView>
 
 </LinearLayout>

@@ -49,19 +49,30 @@ public class StudentDBHelper extends SQLiteOpenHelper {
 
     }
 
-    public void updateDB(UserDetails userDetails) {
+    public long updateDB(UserDetails userDetails) {
+        long status=0;
         SQLiteDatabase database = getWritableDatabase();
         ContentValues content = new ContentValues();
         content.put(StudentEntry.COLOUMN_NAME_ROLL, Integer.parseInt(userDetails.getRollNo()));
         content.put(StudentEntry.COLOUMN_NAME_NAME, userDetails.getName());
         content.put(StudentEntry.COLOUMN_NAME_ADDRESS, userDetails.getAddress());
         content.put(StudentEntry.COLOUMN_NAME_GENDER, userDetails.getGenderIs());
-        try {
-            database.insert(StudentEntry.TABLE_NAME, null, content);
-        } catch (SQLiteConstraintException e) {
-            Log.d("TAG", "SQL exception caught");
+        try{
+         status =   database.insertOrThrow(StudentEntry.TABLE_NAME, null, content);}
+         catch (SQLiteConstraintException e){
+            Log.d("sql","Constaraint exception");
+             Log.d("TAG", "SQL exception caught");
+         }
+
+         finally {
+            database.close();
+            Log.d("status", String.valueOf(status));
+            return -1;
+
+
         }
-        database.close();
+
+
     }
 
     public ArrayList<UserDetails> retrieve() {

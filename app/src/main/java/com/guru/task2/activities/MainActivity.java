@@ -81,28 +81,29 @@ public class MainActivity extends AppCompatActivity {
         Log.d("onclick invoked", "TAG");
         RadioButton gen = findViewById(genderID);
         genderIs = String.valueOf(gen.getText());
-        if (validateFields()== true) {
+        if (validateFields() == true) {
             UserDetails user = new UserDetails(userAddress, userName, genderIs, rollNo);
             Log.d(user.getRollNo(), "TAG");
-            try{
-                studentDB.updateDB(user);
-                clearText();
-            }
-            catch(SQLiteConstraintException e)
-            {
+            if (studentDB.updateDB(user) == -1) {
+
                 setToast("Roll no already present");
                 roll.requestFocus();
-            }
-        }
+            } else {
 
+                setToast("Data Inserted");
+                clearText();
+            }
+
+
+        }
 
 
     }
 
     void showListActivity() {
-        userList = studentDB.retrieve();
+        // userList = studentDB.retrieve();
         Intent i = new Intent(getApplicationContext(), ActivityList.class);
-            startActivity(i);
+        startActivity(i);
 
 
     }
@@ -140,8 +141,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
 
-        }
-        else{
+        } else {
             name.requestFocus();
             setToast("Enter Name");
 
