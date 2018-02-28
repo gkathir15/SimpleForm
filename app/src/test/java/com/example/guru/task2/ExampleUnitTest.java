@@ -1,4 +1,4 @@
-package com.example.guru.task2;
+package com.guru.task2;
 
 import org.junit.Test;
 

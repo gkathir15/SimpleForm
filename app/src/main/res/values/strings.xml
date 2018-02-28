@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Form</string>
+    <string name="app_name">FormDB</string>
     <string name="name">Name</string>
     <string name="address">Address</string>
     <string name="gender">Gender</string>

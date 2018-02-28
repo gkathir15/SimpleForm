@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.guru.task2.ActivityList">
+    tools:context="com.guru.task2.activities.ActivityList">
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
