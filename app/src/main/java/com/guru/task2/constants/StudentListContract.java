@@ -1,4 +1,4 @@
-package com.example.guru.task2;
+package com.guru.task2.constants;
 
 import android.provider.BaseColumns;
 
@@ -13,11 +13,12 @@ public final class StudentListContract {
     }
     public static class StudentEntry implements BaseColumns {
 
-        public static final String TABLE_NAME="studentsList";
-        public static final String COLOUMN_NAME_ROLL="userName";
-        public static final String COLOUMN_NAME_NAME="address";
+        public static final String TABLE_NAME=" studentsList";
+        public static final String COLOUMN_NAME_ROLL="roll";
+        public static final String COLOUMN_NAME_NAME="name";
         public static final String COLOUMN_NAME_GENDER="gender";
         public static final String COLOUMN_NAME_ADDRESS="address";
+        public static String DATABASE_NAME = "StudentsDB";
 
 
     }

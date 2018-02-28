@@ -1,6 +1,7 @@
-package com.example.guru.task2;
+package com.guru.task2.activities;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteConstraintException;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.ActionBar;
@@ -15,6 +16,10 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.guru.task2.R;
+import com.guru.task2.helper.StudentDBHelper;
+import com.guru.task2.data_model.UserDetails;
+
 import java.util.ArrayList;
 
 
@@ -26,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     RadioGroup Genders;
     int genderID;
     public ArrayList<UserDetails> userList = new ArrayList<>();
+    StudentDBHelper studentDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
         Genders = findViewById(R.id.genderRadio);
         Button submit = findViewById(R.id.submit);
         final Button showList = findViewById(R.id.viewList);
+        studentDB = new StudentDBHelper(this);
 
 
         submit.setOnClickListener((new View.OnClickListener() {
@@ -77,31 +84,27 @@ public class MainActivity extends AppCompatActivity {
         if (validateFields()== true) {
             UserDetails user = new UserDetails(userAddress, userName, genderIs, rollNo);
             Log.d(user.getRollNo(), "TAG");
-
-
-            if (!userList.contains(user)) {
-                userList.add(user);
-                Toast.makeText(getApplicationContext(), "User added", Toast.LENGTH_SHORT).show();
+            try{
+                studentDB.updateDB(user);
                 clearText();
-            } else {
-                Toast.makeText(getApplicationContext(), "RollNo already Exist", Toast.LENGTH_SHORT).show();
+            }
+            catch(SQLiteConstraintException e)
+            {
+                setToast("Roll no already present");
+                roll.requestFocus();
             }
         }
+
 
 
     }
 
     void showListActivity() {
-        if (!userList.isEmpty()) {
-            Intent i = new Intent(getApplicationContext(), ActivityList.class);
-            i.putExtra("userArrayListuserArrayList", userList);
+        userList = studentDB.retrieve();
+        Intent i = new Intent(getApplicationContext(), ActivityList.class);
             startActivity(i);
-        } else
-            Toast.makeText(getApplicationContext(), "no users added", Toast.LENGTH_SHORT).show();
 
-        // ArrayList<UserDetails> userDetails = userList ;
-        // userDetails.clear();
-        // Log.d("MainActivity","size of user list "+userList.size());
+
     }
 
     void clearText() {

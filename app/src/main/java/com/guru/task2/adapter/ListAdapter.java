@@ -1,4 +1,4 @@
-package com.example.guru.task2;
+package com.guru.task2.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -8,6 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
+import com.guru.task2.R;
+import com.guru.task2.data_model.UserDetails;
 
 import java.util.ArrayList;
 

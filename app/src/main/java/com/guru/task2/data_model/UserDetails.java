@@ -1,4 +1,4 @@
-package com.example.guru.task2;
+package com.guru.task2.data_model;
 
 import java.io.Serializable;
 
@@ -11,11 +11,15 @@ public class UserDetails implements Serializable{
     private String rollNo, name, address, genderIs;
 
 
-    UserDetails(String Address, String Name, String Gender, String RollNo) {
+    public UserDetails(String Address, String Name, String Gender, String RollNo) {
         this.address = Address;
         this.name = Name;
         this.genderIs = Gender;
         this.rollNo = RollNo;
+
+    }
+
+    public UserDetails() {
 
     }
 

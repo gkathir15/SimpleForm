@@ -1,10 +1,13 @@
-package com.example.guru.task2;
+package com.guru.task2.activities;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
+
+import com.guru.task2.R;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -41,6 +44,8 @@ public class DetailActivity extends AppCompatActivity {
 
 
     }
+
+
 
 
 }
