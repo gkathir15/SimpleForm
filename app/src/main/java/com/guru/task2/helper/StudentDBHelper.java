@@ -20,6 +20,8 @@ import static com.guru.task2.constants.StudentListContract.*;
 
 public class StudentDBHelper extends SQLiteOpenHelper {
 
+    long status = 0;
+
 
     public StudentDBHelper(Context context) {
         super(context, StudentEntry.DATABASE_NAME, null, DATABASE_VERSION);
@@ -50,7 +52,9 @@ public class StudentDBHelper extends SQLiteOpenHelper {
     }
 
     public long updateDB(UserDetails userDetails) {
-        long status=0;
+
+        status=0;
+
         SQLiteDatabase database = getWritableDatabase();
         ContentValues content = new ContentValues();
         content.put(StudentEntry.COLOUMN_NAME_ROLL, Integer.parseInt(userDetails.getRollNo()));
@@ -60,6 +64,7 @@ public class StudentDBHelper extends SQLiteOpenHelper {
         try{
          status =   database.insertOrThrow(StudentEntry.TABLE_NAME, null, content);}
          catch (SQLiteConstraintException e){
+            status =-1;
             Log.d("sql","Constaraint exception");
              Log.d("TAG", "SQL exception caught");
          }
@@ -67,10 +72,15 @@ public class StudentDBHelper extends SQLiteOpenHelper {
          finally {
             database.close();
             Log.d("status", String.valueOf(status));
-            return -1;
+           // return -1;
+
 
 
         }
+        return status;
+
+
+
 
 
     }
@@ -78,7 +88,7 @@ public class StudentDBHelper extends SQLiteOpenHelper {
     public ArrayList<UserDetails> retrieve() {
         ArrayList<UserDetails>queryDataList = new ArrayList<>();
         SQLiteDatabase database = this.getReadableDatabase();
-        String selectQuery = "SELECT * FROM "+StudentEntry.TABLE_NAME+" ORDER BY "+StudentEntry.COLOUMN_NAME_NAME+" ASC";
+        String selectQuery = "SELECT * FROM "+StudentEntry.TABLE_NAME+" ORDER BY "+StudentEntry.COLOUMN_NAME_NAME+" COLLATE NOCASE";
         Cursor c =database.rawQuery(selectQuery,null);
         try {
             if (c.moveToFirst()) {
