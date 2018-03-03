@@ -4,11 +4,8 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="fontLight">#FF000000</color>
-
-
-
-
-
+    <color name="text_color_primary">#fffcfc</color>
+    <color name="background_material_light">#fcfcfc</color>
 
 
 </resources>

@@ -1,6 +1,9 @@
 package com.guru.task2.activities;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.database.sqlite.SQLiteConstraintException;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
@@ -9,6 +12,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -36,14 +40,21 @@ public class MainActivity extends AppCompatActivity {
     int genderID;
     public ArrayList<UserDetails> userList = new ArrayList<>();
     StudentDBHelper studentDB;
+    String THEME_ID = "currentThemeID";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        writePreferenceData();
+        setCustomTheme();
+        //Setting up app theme manually
         setContentView(R.layout.activity_main);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setCustomView(R.layout.custom_form_actionbar);
         actionBar.setDisplayShowCustomEnabled(true);
+
+
 
 
 
@@ -53,6 +64,16 @@ public class MainActivity extends AppCompatActivity {
         Genders = findViewById(R.id.genderRadio);
         Button submit = findViewById(R.id.submit);
         final Button showList = findViewById(R.id.viewList);
+
+        //Creation and saving data to Shared preferences,
+       // SharedPreferences sharedPreferences = getSharedPreferences(R.string.app_name+"ThemeData",MODE_PRIVATE);
+
+
+
+       // Log.d("Theme",);
+
+
+
         studentDB = new StudentDBHelper(this);
 
 
@@ -82,6 +103,8 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu,menu);
@@ -93,23 +116,79 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        setCustomTheme();
+        setThemePref(); //Called to alter the preference Bool value inverse and recreate the activity
 
         return super.onOptionsItemSelected(item);
     }
 
+    boolean selectedTheme()
+    {
+        SharedPreferences sharedPreferences = getSharedPreferences(R.string.app_name+"ThemeData",MODE_PRIVATE);
+
+        boolean currentTheme = sharedPreferences.getBoolean(THEME_ID,false);
+        if(currentTheme)//true
+        {
+            return true;
+        }
+        else {
+            return false;
+        }
+
+
+    }
+
+    void writePreferenceData()
+    {
+
+        SharedPreferences sharedPreferences = getSharedPreferences(R.string.app_name+"ThemeData",MODE_PRIVATE);
+        if(!sharedPreferences.contains(THEME_ID))
+        {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean(THEME_ID,false);
+            editor.commit();
+        }
+
+    }
+
+
     void setCustomTheme()
     {
-        this.setTheme(R.style.AppThemeDark);
+        if(selectedTheme()){
+            setTheme(R.style.AppThemeDark);
+        }
+        else
+        {
+            setTheme(R.style.AppTheme);
+        }
+
+    }
+
+    void setThemePref()
+    {
+        SharedPreferences sharedPreferences = getSharedPreferences(R.string.app_name+"ThemeData",MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        if(selectedTheme())
+        {
+            editor.putBoolean(THEME_ID,false);
+            editor.commit();
+
+        }
+        else {
+            editor.putBoolean(THEME_ID, true);
+            editor.commit();
+        }
+
+
         recreate();
 
-        Log.d("Custom theme enabled","theme");
+
+
+
+
+
     }
 
-    void savePreferenceData()
-    {
 
-    }
 
 
 
