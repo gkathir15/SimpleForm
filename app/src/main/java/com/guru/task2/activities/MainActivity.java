@@ -1,20 +1,13 @@
 package com.guru.task2.activities;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.res.Resources;
-import android.database.sqlite.SQLiteConstraintException;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.ContextThemeWrapper;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -26,7 +19,7 @@ import android.widget.Toast;
 
 import com.guru.task2.R;
 import com.guru.task2.helper.SetThemeHelper;
-import com.guru.task2.helper.StudentDBHelper;
+import com.guru.task2.helper.AppDBHelper;
 import com.guru.task2.data_model.UserDetails;
 
 import java.util.ArrayList;
@@ -40,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     RadioGroup Genders;
     int genderID;
     public ArrayList<UserDetails> userList = new ArrayList<>();
-    StudentDBHelper studentDB;
+    AppDBHelper studentDB;
     SetThemeHelper setThemeHelper =new SetThemeHelper();
     //Activity activity =new Activity();
 
@@ -76,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        studentDB = new StudentDBHelper(this);
+        studentDB = new AppDBHelper(this);
 
 
         submit.setOnClickListener((new View.OnClickListener() {
@@ -158,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void showListActivity() {
-        // userList = studentDB.retrieve();
+        // userList = studentDB.retrieveStudentData();
         Intent i = new Intent(getApplicationContext(), ActivityList.class);
         startActivity(i);
 

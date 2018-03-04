@@ -17,19 +17,15 @@ import com.guru.task2.data_model.UserDetails;
 import com.guru.task2.adapter.ListAdapter;
 import com.guru.task2.R;
 import com.guru.task2.helper.SetThemeHelper;
-import com.guru.task2.helper.StudentDBHelper;
+import com.guru.task2.helper.AppDBHelper;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
 
 public class ActivityList extends AppCompatActivity {
 
     ArrayList<UserDetails> studentArray = new ArrayList<UserDetails>();
     static ListAdapter listAdapter;
-    StudentDBHelper dbHelper = new StudentDBHelper(this);
+    AppDBHelper dbHelper = new AppDBHelper(this);
     GetDatabasetoList dbAsyncList = new GetDatabasetoList();
     SetThemeHelper setThemeHelper =new SetThemeHelper();
 
@@ -42,7 +38,7 @@ public class ActivityList extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setCustomView(R.layout.custom_list_actionbar);
         actionBar.setDisplayShowCustomEnabled(true);
-         //studentArray = dbHelper.retrieve();
+         //studentArray = dbHelper.retrieveStudentData();
         dbAsyncList.execute();
         Log.d("oncreate", String.valueOf(studentArray.size()));
 
