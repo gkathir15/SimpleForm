@@ -21,6 +21,7 @@ import static com.guru.task2.constants.StudentListContract.*;
 public class StudentDBHelper extends SQLiteOpenHelper {
 
     long status = 0;
+    StudentTableHelper studentTableHelper = new StudentTableHelper();
 
 
     public StudentDBHelper(Context context) {
@@ -36,7 +37,6 @@ public class StudentDBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        StudentTableHelper studentTableHelper = new StudentTableHelper();
         studentTableHelper.createStudentTable(db);
 
     }
@@ -46,39 +46,7 @@ public class StudentDBHelper extends SQLiteOpenHelper {
 
     }
 
-    public long updateDB(UserDetails userDetails) {
 
-        status=0;
-
-        SQLiteDatabase database = getWritableDatabase();
-        ContentValues content = new ContentValues();
-        content.put(StudentEntry.COLOUMN_NAME_ROLL, Integer.parseInt(userDetails.getRollNo()));
-        content.put(StudentEntry.COLOUMN_NAME_NAME, userDetails.getName());
-        content.put(StudentEntry.COLOUMN_NAME_ADDRESS, userDetails.getAddress());
-        content.put(StudentEntry.COLOUMN_NAME_GENDER, userDetails.getGenderIs());
-        try{
-         status =   database.insertOrThrow(StudentEntry.TABLE_NAME, null, content);}
-         catch (SQLiteConstraintException e){
-            status =-1;
-            Log.d("sql","Constaraint exception");
-             Log.d("TAG", "SQL exception caught");
-         }
-
-         finally {
-            database.close();
-            Log.d("status", String.valueOf(status));
-           // return -1;
-
-
-
-        }
-        return status;
-
-
-
-
-
-    }
 
     public ArrayList<UserDetails> retrieve() {
         ArrayList<UserDetails>queryDataList = new ArrayList<>();
