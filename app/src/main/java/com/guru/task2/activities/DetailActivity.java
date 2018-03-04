@@ -67,6 +67,12 @@ public class DetailActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        this.recreate();
+    }
+
 
 
 

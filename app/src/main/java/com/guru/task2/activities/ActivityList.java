@@ -154,4 +154,10 @@ public class ActivityList extends AppCompatActivity {
         super.onStop();
        new GetDatabasetoList().cancel(true);
     }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        this.recreate();
+    }
 }

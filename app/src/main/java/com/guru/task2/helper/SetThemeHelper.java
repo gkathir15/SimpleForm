@@ -62,6 +62,8 @@ public class SetThemeHelper {
             context.setTheme(R.style.AppTheme);
         }
 
+
+
     }
 
     public void setThemePref(Context context, Activity activity)
