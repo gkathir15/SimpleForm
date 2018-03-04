@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.guru.task2.R;
+import com.guru.task2.helper.SetThemeHelper;
 import com.guru.task2.helper.StudentDBHelper;
 import com.guru.task2.data_model.UserDetails;
 
@@ -40,14 +41,15 @@ public class MainActivity extends AppCompatActivity {
     int genderID;
     public ArrayList<UserDetails> userList = new ArrayList<>();
     StudentDBHelper studentDB;
-    String THEME_ID = "currentThemeID";
+    SetThemeHelper setThemeHelper =new SetThemeHelper();
+    //Activity activity =new Activity();
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        writePreferenceData();
-        setCustomTheme();
+       setThemeHelper.writePreferenceData(this);
+        setThemeHelper.setCustomTheme(this);
         //Setting up app theme manually
         setContentView(R.layout.activity_main);
         ActionBar actionBar = getSupportActionBar();
@@ -116,77 +118,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        setThemePref(); //Called to alter the preference Bool value inverse and recreate the activity
+        setThemeHelper.setThemePref(this,this); //Called to alter the preference Bool value inverse and recreate the activity
 
         return super.onOptionsItemSelected(item);
     }
 
-    boolean selectedTheme()
-    {
-        SharedPreferences sharedPreferences = getSharedPreferences(R.string.app_name+"ThemeData",MODE_PRIVATE);
 
-        boolean currentTheme = sharedPreferences.getBoolean(THEME_ID,false);
-        if(currentTheme)//true
-        {
-            return true;
-        }
-        else {
-            return false;
-        }
-
-
-    }
-
-    void writePreferenceData()
-    {
-
-        SharedPreferences sharedPreferences = getSharedPreferences(R.string.app_name+"ThemeData",MODE_PRIVATE);
-        if(!sharedPreferences.contains(THEME_ID))
-        {
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putBoolean(THEME_ID,false);
-            editor.commit();
-        }
-
-    }
-
-
-    void setCustomTheme()
-    {
-        if(selectedTheme()){
-            setTheme(R.style.AppThemeDark);
-        }
-        else
-        {
-            setTheme(R.style.AppTheme);
-        }
-
-    }
-
-    void setThemePref()
-    {
-        SharedPreferences sharedPreferences = getSharedPreferences(R.string.app_name+"ThemeData",MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        if(selectedTheme())
-        {
-            editor.putBoolean(THEME_ID,false);
-            editor.commit();
-
-        }
-        else {
-            editor.putBoolean(THEME_ID, true);
-            editor.commit();
-        }
-
-
-        recreate();
-
-
-
-
-
-
-    }
 
 
 

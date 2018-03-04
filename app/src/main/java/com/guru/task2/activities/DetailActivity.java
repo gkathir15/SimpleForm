@@ -5,17 +5,22 @@ import android.os.AsyncTask;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.guru.task2.R;
+import com.guru.task2.helper.SetThemeHelper;
 
 public class DetailActivity extends AppCompatActivity {
 
     TextView name,address,roll,gender;
+    SetThemeHelper setThemeHelper =new SetThemeHelper();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setThemeHelper.setCustomTheme(this);
         setContentView(R.layout.activity_detail);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setCustomView(R.layout.custom_detail_actionbar);
@@ -32,6 +37,23 @@ public class DetailActivity extends AppCompatActivity {
 
 
 
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu,menu);
+        return true;
+
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        setThemeHelper.setThemePref(this,this); //Called to alter the preference Bool value inverse and recreate the activity
+
+        return super.onOptionsItemSelected(item);
     }
 
     void getIntentData()

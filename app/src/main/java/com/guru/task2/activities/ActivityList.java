@@ -6,6 +6,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -14,6 +16,7 @@ import android.widget.ProgressBar;
 import com.guru.task2.data_model.UserDetails;
 import com.guru.task2.adapter.ListAdapter;
 import com.guru.task2.R;
+import com.guru.task2.helper.SetThemeHelper;
 import com.guru.task2.helper.StudentDBHelper;
 
 import java.util.ArrayList;
@@ -28,11 +31,13 @@ public class ActivityList extends AppCompatActivity {
     static ListAdapter listAdapter;
     StudentDBHelper dbHelper = new StudentDBHelper(this);
     GetDatabasetoList dbAsyncList = new GetDatabasetoList();
+    SetThemeHelper setThemeHelper =new SetThemeHelper();
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setThemeHelper.setCustomTheme(this);
         setContentView(R.layout.activity_list);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setCustomView(R.layout.custom_list_actionbar);
@@ -77,6 +82,23 @@ public class ActivityList extends AppCompatActivity {
 
             }
         });
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu,menu);
+        return true;
+
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        setThemeHelper.setThemePref(this,this); //Called to alter the preference Bool value inverse and recreate the activity
+
+        return super.onOptionsItemSelected(item);
     }
 
 
